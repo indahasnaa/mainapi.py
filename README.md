@@ -1,152 +1,216 @@
-# Self-Balancing Robot Using Fuzzy Logic Controller
+# REST API Personal Profile & Music Playlist
 
-## Overview
-
-This project implements a two-wheeled self-balancing robot using an ESP32 microcontroller and an MPU6050 IMU sensor. The robot maintains its balance by continuously measuring its tilt angle and applying a Fuzzy Logic Controller (FLC) to determine the appropriate motor speed and direction.
-
-The system is designed to keep the robot upright by minimizing the error between the desired angle (0°) and the measured tilt angle.
-
----
+A simple REST API built with **Python Flask** that displays a personal profile and a music playlist through both web pages and JSON API endpoints.
 
 ## Features
 
-- Real-time balancing using Fuzzy Logic Control
-- MPU6050 sensor for angle measurement
-- ESP32-based controller
-- PID-free control algorithm
-- PWM motor speed control
-- Forward and backward balancing
-- Serial Monitor for debugging and monitoring
+- Personal profile page
+- Music playlist page
+- REST API endpoint for personal information
+- REST API endpoint for music playlist
+- Simple HTML interface using Flask
+- JSON responses using Flask `jsonify`
 
 ---
 
-## Hardware Requirements
+## Technologies Used
 
-- ESP32 Development Board
-- MPU6050 Gyroscope & Accelerometer
-- L298N Motor Driver
-- 2 DC Geared Motors
-- Robot Chassis
-- Lithium Battery (7.4V or equivalent)
-- Jumper Wires
-
----
-
-## Software Requirements
-
-- Arduino IDE
-- ESP32 Board Package
-- Required Libraries:
-  - Wire.h
-  - MPU6050 library
-  - Fuzzy Logic library (if used)
-  - Other dependencies included in the project
+- Python 3
+- Flask
 
 ---
 
 ## Project Structure
 
 ```
-Self-Balancing-Robot/
+project/
 │
-├── src/
-│   ├── main.ino
-│   ├── fuzzy_controller.cpp
-│   ├── fuzzy_controller.h
-│   ├── motor_control.cpp
-│   ├── motor_control.h
-│   └── sensor.cpp
-│
-├── include/
-│
-├── images/
-│
-├── docs/
-│
-└── README.md
+├── app.py
+├── README.md
+└── requirements.txt
 ```
-
----
-
-## Working Principle
-
-1. MPU6050 measures the robot's tilt angle.
-2. ESP32 reads sensor data continuously.
-3. The Fuzzy Logic Controller calculates the angle error.
-4. Based on the fuzzy rules, the controller determines the motor output.
-5. The motors rotate in the required direction to restore the robot's balance.
-6. The process repeats continuously in real time.
-
----
-
-## Fuzzy Logic Controller
-
-### Inputs
-
-- Error (Tilt Angle)
-- Delta Error (Change of Error)
-
-### Output
-
-- Motor PWM Speed
-
-The controller uses a rule base to determine the appropriate motor response based on the robot's current position.
-
----
-
-## Wiring Diagram
-
-| Component | ESP32 Pin |
-|-----------|-----------|
-| MPU6050 SDA | GPIO 21 |
-| MPU6050 SCL | GPIO 22 |
-| L298N IN1 | GPIO xx |
-| L298N IN2 | GPIO xx |
-| L298N IN3 | GPIO xx |
-| L298N IN4 | GPIO xx |
-| ENA | PWM GPIO xx |
-| ENB | PWM GPIO xx |
-
-Replace **xx** with the actual GPIO numbers used in your project.
 
 ---
 
 ## Installation
 
-1. Clone this repository.
+### 1. Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/self-balancing-robot.git
+git clone https://github.com/yourusername/rest-api-profile.git
+cd rest-api-profile
 ```
 
-2. Open the project in Arduino IDE.
+### 2. Create a virtual environment (optional)
 
-3. Install all required libraries.
+```bash
+python -m venv venv
+```
 
-4. Select the correct ESP32 board.
+Activate it:
 
-5. Upload the program.
+Windows
 
-6. Open the Serial Monitor to observe sensor values and controller output.
+```bash
+venv\Scripts\activate
+```
+
+Linux/macOS
+
+```bash
+source venv/bin/activate
+```
+
+### 3. Install Flask
+
+```bash
+pip install flask
+```
+
+or
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## Run the Application
+
+```bash
+python app.py
+```
+
+The application will run at:
+
+```
+http://localhost:1006
+```
+
+---
+
+## Available Routes
+
+### Home Page
+
+```
+GET /
+```
+
+Displays the homepage with navigation links.
+
+---
+
+### About Page
+
+```
+GET /about
+```
+
+Displays personal information.
+
+---
+
+### Playlist Page
+
+```
+GET /list
+```
+
+Displays a list of favorite songs.
+
+---
+
+### API - Personal Profile
+
+```
+GET /api/about
+```
+
+Example response:
+
+```json
+{
+  "nama": "Indah Asna Fadila",
+  "nim": "2311011008",
+  "jurusan": "Teknik Elektro",
+  "prodi": "Elektronika",
+  "kampus": "Politeknik Negeri Padang",
+  "asal": "Bukittinggi",
+  "hobi": "Fotografi",
+  "cita_cita": "Pengusaha"
+}
+```
+
+---
+
+### API - Music Playlist
+
+```
+GET /api/list
+```
+
+Example response:
+
+```json
+[
+  {
+    "judul": "Contoh Judul Lagu 1",
+    "artis": "Artis A",
+    "genre": "Pop"
+  },
+  {
+    "judul": "Contoh Judul Lagu 2",
+    "artis": "Artis B",
+    "genre": "Indie"
+  },
+  {
+    "judul": "Contoh Judul Lagu 3",
+    "artis": "Artis C",
+    "genre": "R&B"
+  }
+]
+```
+
+---
+
+## Personal Information
+
+| Field | Value |
+|-------|-------|
+| Name | Indah Asna Fadila |
+| Student ID | 2311011008 |
+| Department | Teknik Elektro |
+| Study Program | Elektronika |
+| University | Politeknik Negeri Padang |
+| Origin | Bukittinggi |
+| Hobby | Photography |
+| Career Goal | Entrepreneur |
+
+---
+
+## Screenshot
+
+You can add screenshots of:
+
+- Home page
+- About page
+- Playlist page
+- JSON response from `/api/about`
+- JSON response from `/api/list`
 
 ---
 
 ## Future Improvements
 
-- Bluetooth control
-- Wi-Fi monitoring
-- Automatic calibration
-- Better sensor fusion using Kalman Filter
-- Mobile application integration
-
----
-
-## Authors
-
-Developed as a Final Project by students of Industrial Electronics Engineering.
+- Add CRUD operations (Create, Read, Update, Delete)
+- Store data in a database
+- User authentication
+- RESTful API documentation using Swagger
+- Responsive frontend with Bootstrap
 
 ---
 
 ## License
 
-This project is intended for educational and research purposes.
+This project is created for educational purposes.
